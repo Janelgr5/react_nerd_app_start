@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+// const router = express.Router();
 
 const app = express();
 
@@ -8,3 +9,5 @@ express.static('public');
 express.urlencoded({
   extended: true
 });
+
+app.use('/api', require('./apiRoutes'));
