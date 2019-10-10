@@ -38,7 +38,7 @@
 # build/Release
 
 # Dependency directories
-node_modules/
+# node_modules/
 # jspm_packages/
 
 # bundled client javascript file (if you're using a module builder like webpack).
