@@ -2,7 +2,6 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 const port = process.env.PORT || 3000;
-// const router = express.Router();
 
 const app = express();
 
@@ -15,7 +14,8 @@ express.urlencoded({
 app.use('/api', require('./apiRoutes'));
 
 app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  // __dirname returns the absolute path ending in './server' but, we need to serve the index.html which is outside of the server directory.
+  res.sendFile(path.join(__dirname, '../index.html'));
 });
 
 app.use(function (err, req, res, next) {
