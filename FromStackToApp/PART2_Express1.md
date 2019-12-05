@@ -60,30 +60,56 @@ app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname,  '../index.html)');
 });  // __dirname returns the absolute path ending in './server' but, we need to serve the index.html which is outside of the server directory.
 ```
-Step 3: Start the Server
+### Step 3: Start the Server
 Let’s start our server, so we can see what our app looks like so far in the browser.
-In server/app.js:
+
+**In server/app.js:**
+```js
 const port = process.env.PORT || 3000;
-At the bottom of the file:
+
+
+// At the bottom of the file:
 app.listen(port, function () {
  	    console.log(`Your server is on port ${port}`);
- 	});
-In package.json:
-Add the following to "scripts" object to start running our server
-“start”: “node server/app.js”
-Step 4: Install Nodemon
-Instead of having to kill and restart the server each time we make a change to our app, lets install nodemon.  Now we'll be able to make changes to our app and restart our server automatically.
-In terminal:
+   });
+```
+
+**In package.json:**
+Add the following line to "scripts" object. This tells node which file to go to in order to start running our server:
+```json
+"scripts": {
+  "start": "node server/app.js"
+}
+```
+### Step 4: Install Nodemon
+Instead of having to kill and restart the server each time we make a change to our app, lets install [nodemon](https://nodemon.io/).  Now we'll be able to make changes to our app and restart our server automatically.
+
+**In terminal:**
+```zsh
 npm i --S -D nodemon //installs nodemon as a development dependency
-In package.json
-Add the following to your "scripts" object after "start":
-"dev": "nodemon server/app.js,
-In terminal,
+```
+
+**In package.json:**
+Add a ```"dev"``` property to your "scripts" object after "start". This will tell nodemon which file to use to run and restart our server during development of our application:
+```json
+"scripts": {
+  "start": "node server/app.js",
+  "dev": "nodemon server/app.js"
+}
+```
+
+**In terminal:**
+```zsh
 npm run dev //starts server
+```
 
 Now go to your browser, go to http://localhost:3000/ and you should see “Placeholder Text” from  your index.html. Go ahead and change it to whatever you like.  We’ll be adding more to this file later!
-Middleware
-Step 5: Logging Middleware
+
+## Middleware
+So now we have a basic express app.  However, we've yet to tap into all that express has to offer. One of the advantages of using express is it's ability to handle and process http requests and responses. Granted, we could write the vanilla JavaScript for these tasks ourselves, but by installing express middleware, we can add this functionality to our applications in an optimized and efficient way.
+
+Middleware is
+### Step 5: Logging Middleware
 In terminal:
 npm install --save morgan //installs morgan node package
 In /server/app.js
