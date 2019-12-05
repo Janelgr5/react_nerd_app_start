@@ -198,15 +198,43 @@ express.static('public'); // serves up static files and assets in our "public" d
 
 // The rest of the previous code below...
 ```
-Step 8: Error Handling Middleware
-The 500 Internal Server Error is a HTTP status code that means something has gone wrong on the web site's server but we’re not sure why.  We’ll add more error handling later when we build express routes to database.
-In server/index.js
-app.use(function (err, req, res, next) {
-  console.error(‘Error: ‘, err);
-  console.error(err.stack);
-  res.status(err.status || 500)
-        .send(err.message || 'Internal server error.');
+
+### Step 8: Error Handling Middleware
+The 500 Internal Server Error is a HTTP status code that means something has gone wrong on the web site's server but we’re not sure why.  We’ll add more error handling later when we build express routes to the database, but for now, lets create this error handling middleware.
+
+**In server/index.js:**
+```js
+const express = require('express');
+const morgan = require('morgan');
+const path = require('path');
+const port = process.env.PORT || 3000;
+
+const app = express();
+
+app.use(morgan('dev'));
+express.urlencoded({
+  extended: true
 });
+express.json();
+express.static('public');
+
+app.use('/api', require('./apiRoutes'));
+
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../index.html'));
+});
+
+// We want to place this error handler at the end of all of our middleware.  If we pass errors through our application, this will be the last error handler it hits before return the response to the client.
+app.use(function (err, req, res, next) {
+  console.error(err);
+  console.error(err.stack);
+  res.status(err.status || 500).send(err.message || 'Internal server error.');
+});
+
+app.listen(port, function () {
+  console.log(`Your server, listening on port ${port}`);
+});
+```
 Heading 2: Set reader’s up to learn/take action.
 Content/Images: practical, easy to implement advice. Readers should see results if they implement your advice.
 

@@ -15,7 +15,6 @@ express.static('public');
 app.use('/api', require('./apiRoutes'));
 
 app.get('*', function (req, res) {
-  // __dirname returns the absolute path ending in './server' but, we need to serve the index.html which is outside of the server directory.
   res.sendFile(path.join(__dirname, '../index.html'));
 });
 
