@@ -53,9 +53,16 @@ Code index.html
   </body>
 </html>
 ```
+
+Now lets "get" our HTML file so we can (eventually) display it on the browser.
+
 **In server/app.js:**
 ```js
-const path = require(‘path’);
+const express = require('express');
+const path = require(‘path’); // a method that will allow us to work with files and directory paths.
+
+const app = express();
+
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname,  '../index.html)');
 });  // __dirname returns the absolute path ending in './server' but, we need to serve the index.html which is outside of the server directory.
@@ -65,7 +72,17 @@ Let’s start our server, so we can see what our app looks like so far in the br
 
 **In server/app.js:**
 ```js
-const port = process.env.PORT || 3000;
+const express = require('express');
+const path = require('path');
+// set the environment variable PORT to tell your web server what port to listen on.
+const port = process.env.PORT || 3000; // whatever is in the  variable PORT, or 3000 if there's nothing there.
+
+const app = express();
+
+app.get('*', function (req, res) {
+  // __dirname returns the absolute path ending in './server' but, we need to serve the index.html which is outside of the server directory.
+  res.sendFile(path.join(__dirname, '../index.html'));
+});
 
 
 // At the bottom of the file:
@@ -75,7 +92,7 @@ app.listen(port, function () {
 ```
 
 **In package.json:**
-Add the following line to "scripts" object. This tells node which file to go to in order to start running our server:
+Add the following line to `"scripts"` object. This tells node which file to go to in order to start running our server:
 ```json
 "scripts": {
   "start": "node server/app.js"
@@ -90,7 +107,7 @@ npm i --S -D nodemon //installs nodemon as a development dependency
 ```
 
 **In package.json:**
-Add a ```"dev"``` property to your "scripts" object after "start". This will tell nodemon which file to use to run and restart our server during development of our application:
+Add a `"dev"` property to your `"scripts"` object after `"start"`. This will tell nodemon which file to use to run and restart our server during development of our application:
 ```json
 "scripts": {
   "start": "node server/app.js",
@@ -103,18 +120,41 @@ Add a ```"dev"``` property to your "scripts" object after "start". This will tel
 npm run dev //starts server
 ```
 
-Now go to your browser, go to http://localhost:3000/ and you should see “Placeholder Text” from  your index.html. Go ahead and change it to whatever you like.  We’ll be adding more to this file later!
+Now go to your browser, go to http://localhost:3000/, and you should see “Placeholder Text” from  your index.html. Go ahead and change it to whatever you like.  We’ll be adding more to this file later!
 
 ## Middleware
-So now we have a basic express app.  However, we've yet to tap into all that express has to offer. One of the advantages of using express is it's ability to handle and process http requests and responses. Granted, we could write the vanilla JavaScript for these tasks ourselves, but by installing express middleware, we can add this functionality to our applications in an optimized and efficient way.
+So now we have a basic express app.  However, we've yet to tap into all that express has to offer. One of the advantages of using express is it's ability to handle common web development tasks. Granted, we could write the vanilla JavaScript for these tasks ourselves, but by installing express middleware, we can add this functionality to our applications in an optimized and efficient way.
 
-Middleware is
+Middleware are functions that process HTTP requests and responses to the HTTP client, then calls the next function in the stack - either another middleware or route handler (we'll get to that later). It can execute any operation or code and can be organized based on your preferences (unless a middleware is dependent on another to run successfully).
+
 ### Step 5: Logging Middleware
-In terminal:
+Not all middleware are built into the express library.  We call these third-party middleware.  In order to use it, we need to first install their node package, require it in our application, then "use" it in our app. One such middleware is [morgan](https://github.com/expressjs/morgan), which logs HTTP requests.
+
+**In terminal:**
+```zsh
 npm install --save morgan //installs morgan node package
-In /server/app.js
+```
+
+**In /server/app.js:**
+```js
+const express = require('express');
 const morgan = require('morgan'); //import morgan from node modules
+const path = require('path');
+const port = process.env.PORT || 3000;
+
+const app = express();
+
 app.use(morgan('dev')); //tells express to use this logging middleware
+
+app.get('*', function (req, res) {
+  // __dirname returns the absolute path ending in './server' but, we need to serve the index.html which is outside of the server directory.
+  res.sendFile(path.join(__dirname, '../index.html'));
+});
+
+app.listen(port, function () {
+  console.log(`Your server, listening on port ${port}`);
+});
+```
 Step 6: Parsing Middleware
 Express contains built-in middleware that allows us to parse or translate the body (information) that often comes with a request from the browser or client side.  We can tell which parser will be needed based on the content type of the body (located in the header of the request).  After the middleware parses the body, a new body object containing that parsed data is added to the request object. Otherwise, the parser will return an empty object.
 In /server/app.js
