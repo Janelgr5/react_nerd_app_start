@@ -105,6 +105,7 @@ app.listen(port, function() {
 ```
 
 **In package.json:**
+
 Add the following line to `"scripts"` object. This tells node which file to go to in order to start running our server:
 
 ```json
@@ -124,6 +125,7 @@ npm i --S -D nodemon //installs nodemon as a development dependency
 ```
 
 **In package.json:**
+
 Add a `"dev"` property to your `"scripts"` object after `"start"`. This will tell nodemon which file to use to run and restart our server during development of our application:
 
 ```json
@@ -208,7 +210,7 @@ So far we’re only showing our index.html file, which gives us a layout for our
 **In terminal:**
 
 ```zsh
-mkdir public; // creates public folder for static files.
+mkdir public // creates public folder for static files.
 ```
 
 **In server/app.js:**
@@ -272,4 +274,4 @@ app.listen(port, function() {
 
 So now we have an Express application with a server. We can process HTTP requests and responses, serve static files and HTML to the browser, log HTTP requests, handle non-specific errors and listen to our server. Another cool feature of Express, is the ability to create routes to handle requests to and receive responses from our server(s). A route associates an HTTP verb (GET, POST, PUT, DELETE, etc.), an URL path/pattern, and a function that is called to handle that pattern. However, we have no database!
 
-For our next installment, we're going to take a step back from Express, and start building our relational database with [postgreSQL](https://www.postgresql.org/) and [Sequelize](https://sequelize.org/).
+For our next installment, we're going to take a step back from Express, and start building our relational database with [PostgreSQL](https://www.postgresql.org/) and [Sequelize](https://sequelize.org/).
