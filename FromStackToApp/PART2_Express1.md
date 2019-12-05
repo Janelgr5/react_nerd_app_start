@@ -4,7 +4,7 @@
 
 ## What is Express?
 
-While there are many benefits to using Node to develop web applications, it is unable to handle all web-development tasks. Instead of having to write (and rewrite) the vanilla JavaScript needed to accomplish these tasks, why not just use a web framework developed by the Node.js Foundation -Express!
+While there are many benefits to using Node to develop web applications, it is unable to handle all web-development tasks. Instead of having to write (and rewrite) the vanilla JavaScript needed to accomplish these tasks, why not just use a web framework developed by the Node.js Foundation - Express!
 
 Express is a popular, unopinionated Node web framework that provides middleware to address the web development tasks not addressed through Node including:
 
@@ -18,7 +18,7 @@ In short it is the middleman of your app. Express will handle the communication 
 
 ### Step 1: Start Express App
 
-We need an entry point to our app. So we're going to start our express server by creating a server directory and starting an instance of an express application.
+We need an entry point to our app. So we're going to start our Express server by creating a server directory and starting an instance of an Express application.
 
 **In terminal:**
 
@@ -32,8 +32,8 @@ code app.js // opens up file to edit
 **In server/app.js:**
 
 ```js
-const express = require('express'); //imports express from node modules
-const app = express(); //initiates an instance of an express app
+const express = require('express'); //imports Express from node modules
+const app = express(); //initiates an instance of an Express app
 ```
 
 ### Step 2: Request and Send Index.html file to the Browser
@@ -43,8 +43,8 @@ We need to actually see our app, so let’s create a basic layout or HTML file. 
 **In terminal:**
 
 ```zsh
-Touch index.html
-Code index.html
+touch index.html
+code index.html
 ```
 
 **In index.html**, create a basic HTML file:
@@ -95,7 +95,6 @@ const port = process.env.PORT || 3000; // whatever is in the  variable PORT, or 
 const app = express();
 
 app.get('*', function(req, res) {
-  // __dirname returns the absolute path ending in './server' but, we need to serve the index.html which is outside of the server directory.
   res.sendFile(path.join(__dirname, '../index.html'));
 });
 
@@ -142,17 +141,17 @@ npm run dev //starts server
 
 Now go to your browser, go to http://localhost:3000/, and you should see “Placeholder Text” from your index.html. Go ahead and change it to whatever you like. We’ll be adding more to this file later!
 
-_In short it [express] is the middleman of your app. Express will handle the communication between your frontend (the user interface or browser) and your backend (database and server)._
+_In short it [Express] is the middleman of your app. Express will handle the communication between your frontend (the user interface or browser) and your backend (database and server)._
 
 ## Middleware
 
-So now we have a basic express app. However, we've yet to tap into all that express has to offer. One of the advantages of using express is it's ability to handle common web development tasks. Granted, we could write the vanilla JavaScript for these tasks ourselves, but by installing express middleware, we can add this functionality to our applications in an optimized and efficient way.
+So now we have a basic Express app. However, we've yet to tap into all that Express has to offer. One of the advantages of using Express is it's ability to handle common web development tasks. Granted, we could write the vanilla JavaScript for these tasks ourselves, but by installing Express middleware, we can add this functionality to our applications in an optimized and efficient way.
 
 Middleware are functions that process HTTP requests and responses to the HTTP client, then calls the next function in the stack - either another middleware or route handler (we'll get to that later). It can execute any operation or code and can be organized based on your preferences (unless a middleware is dependent on another to run successfully).
 
 ### Step 5: Logging Middleware
 
-Not all middleware are built into the express library. We call these third-party middleware. In order to use it, we need to first install their node package, require it in our application, then "use" it in our app. One such middleware is [morgan](https://github.com/expressjs/morgan), which logs HTTP requests.
+Not all middleware are built into the Express library. We call these third-party middleware. In order to use it, we need to first install their node package, require it in our application, then "use" it in our app. One such middleware is [morgan](https://github.com/Expressjs/morgan), which logs HTTP requests.
 
 **In terminal:**
 
@@ -170,7 +169,7 @@ const port = process.env.PORT || 3000;
 
 const app = express();
 
-app.use(morgan('dev')); //tells express to use this logging middleware
+app.use(morgan('dev')); //tells Express to use this logging middleware
 
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, '../index.html'));
@@ -234,7 +233,7 @@ express.static('public'); // serves up static files and assets in our "public" d
 
 ### Step 8: Error Handling Middleware
 
-The 500 Internal Server Error is a HTTP status code that means something has gone wrong on the web site's server but we’re not sure why. We’ll add more error handling later when we build express routes to the database, but for now, lets create this error handling middleware.
+The 500 Internal Server Error is a HTTP status code that means something has gone wrong on the web site's server but we’re not sure why. We’ll add more error handling later when we build Express routes to the database, but for now, lets create this error handling middleware.
 
 **In server/index.js:**
 
@@ -253,8 +252,6 @@ express.urlencoded({
 express.json();
 express.static('public');
 
-app.use('/api', require('./apiRoutes'));
-
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, '../index.html'));
 });
@@ -271,7 +268,8 @@ app.listen(port, function() {
 });
 ```
 
-Heading 2: Set reader’s up to learn/take action.
-Content/Images: practical, easy to implement advice. Readers should see results if they implement your advice.
+## Middleware With Nowhere to Go
 
-Conclusion: Sum up main points; call to action. Subscribe!
+So now we have an Express application with a server. We can process HTTP requests and responses, serve static files and HTML to the browser, log HTTP requests, handle non-specific errors and listen to our server. Another cool feature of Express, is the ability to create routes to handle requests to and receive responses from our server(s). A route associates an HTTP verb (GET, POST, PUT, DELETE, etc.), an URL path/pattern, and a function that is called to handle that pattern. However, we have no database!
+
+For our next installment, we're going to take a step back from Express, and start building our relational database with [postgreSQL](https://www.postgresql.org/) and [Sequelize](https://sequelize.org/).
