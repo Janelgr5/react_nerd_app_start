@@ -147,7 +147,6 @@ const app = express();
 app.use(morgan('dev')); //tells express to use this logging middleware
 
 app.get('*', function (req, res) {
-  // __dirname returns the absolute path ending in './server' but, we need to serve the index.html which is outside of the server directory.
   res.sendFile(path.join(__dirname, '../index.html'));
 });
 
@@ -155,18 +154,50 @@ app.listen(port, function () {
   console.log(`Your server, listening on port ${port}`);
 });
 ```
-Step 6: Parsing Middleware
+### Step 6: Parsing Middleware
 Express contains built-in middleware that allows us to parse or translate the body (information) that often comes with a request from the browser or client side.  We can tell which parser will be needed based on the content type of the body (located in the header of the request).  After the middleware parses the body, a new body object containing that parsed data is added to the request object. Otherwise, the parser will return an empty object.
-In /server/app.js
-express.urlencoded({extended: true}); //parses urlencoded request
-express.json(); //parses json requests
 
-Step 7: Static Files and Middleware
+**In /server/app.js:**
+```js
+const express = require('express');
+const morgan = require('morgan');
+const path = require('path');
+const port = process.env.PORT || 3000;
+
+const app = express();
+
+app.use(morgan('dev'));
+express.urlencoded({extended: true}); // parses urlencoded request that contains any data type
+express.json(); // parses json requests
+
+// The rest of the previous code below...
+```
+### Step 7: Static Files and Middleware
 So far we’re only showing our index.html file, which gives us a layout for our website with no styling or effects whatsoever.  Eventually, we’ll be sending some javascript, css, and other static files from the server.  These files will be stored in a folder called “public.”
-In terminal:
+
+**In terminal:**
+```zsh
 mkdir public; // creates public folder for static files.
-In server/app.js:
-app.use('express.static('public')); //serves up static files
+```
+
+**In server/app.js:**
+```js
+const express = require('express');
+const morgan = require('morgan');
+const path = require('path');
+const port = process.env.PORT || 3000;
+
+const app = express();
+
+app.use(morgan('dev'));
+express.urlencoded({
+  extended: true
+});
+express.json();
+express.static('public'); // serves up static files and assets in our "public" directory
+
+// The rest of the previous code below...
+```
 Step 8: Error Handling Middleware
 The 500 Internal Server Error is a HTTP status code that means something has gone wrong on the web site's server but we’re not sure why.  We’ll add more error handling later when we build express routes to database.
 In server/index.js

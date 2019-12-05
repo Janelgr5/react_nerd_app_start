@@ -5,11 +5,12 @@ const port = process.env.PORT || 3000;
 
 const app = express();
 
-app.use(morgan('combined'));
-express.static('public');
+app.use(morgan('dev'));
 express.urlencoded({
   extended: true
 });
+express.json();
+express.static('public');
 
 app.use('/api', require('./apiRoutes'));
 
