@@ -18,6 +18,7 @@
   "author": "Janel Grant",
   "license": "ISC",
   "dependencies": {
+    "eslint": "^6.6.0",
     "express": "^4.17.1",
     "morgan": "^1.9.1",
     "react": "^16.10.2",
